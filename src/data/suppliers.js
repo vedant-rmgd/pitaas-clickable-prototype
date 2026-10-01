@@ -1,0 +1,12 @@
+export const suppliers = [
+  { id: 'AUDIT-S-16826182-ccca', name: 'AUDIT-S-16826182-ccca', type: 'Company', group: 'All Supplier Groups', country: '—', taxId: '—', defaultCurrency: '', email: '', mobile: '', primaryAddress: '', notes: '', status: 'Active' },
+  { id: 'AUDIT-S-b5dc2bdf-8d87', name: 'AUDIT-S-b5dc2bdf-8d87', type: 'Company', group: 'All Supplier Groups', country: '—', taxId: '—', defaultCurrency: '', email: '', mobile: '', primaryAddress: '', notes: '', status: 'Active' },
+  { id: 'AUDIT-S-ee9a7d77-e252', name: 'AUDIT-S-ee9a7d77-e252', type: 'Company', group: 'All Supplier Groups', country: '—', taxId: '—', defaultCurrency: '', email: '', mobile: '', primaryAddress: '', notes: '', status: 'Active' },
+  { id: 'AUDIT-S-f032372b-8fd4', name: 'AUDIT-S-f032372b-8fd4', type: 'Company', group: 'All Supplier Groups', country: '—', taxId: '—', defaultCurrency: '', email: '', mobile: '', primaryAddress: '', notes: '', status: 'Active' },
+  { id: 'Torna POC Internal Stock', name: 'Torna POC Internal Stock', type: 'Company', group: 'All Supplier Groups', country: '—', taxId: '—', defaultCurrency: '', email: '', mobile: '', primaryAddress: '', notes: '', status: 'Active' },
+  { id: 'TST-DS-03e179c3-9c6c', name: 'TST-DS-03e179c3-9c6c', type: 'Company', group: 'All Supplier Groups', country: '—', taxId: '—', defaultCurrency: '', email: '', mobile: '', primaryAddress: '', notes: '', status: 'Active' },
+  { id: 'TST-DS-0b6946ea-3ef6', name: 'TST-DS-0b6946ea-3ef6', type: 'Company', group: 'All Supplier Groups', country: '—', taxId: '—', defaultCurrency: '', email: '', mobile: '', primaryAddress: '', notes: '', status: 'Active' },
+  { id: 'TST-DS-0b6946ea-50e9', name: 'TST-DS-0b6946ea-50e9', type: 'Company', group: 'All Supplier Groups', country: '—', taxId: '—', defaultCurrency: '', email: '', mobile: '', primaryAddress: '', notes: '', status: 'Active' },
+  { id: 'TST-DS-0b6946ea-8fd5', name: 'TST-DS-0b6946ea-8fd5', type: 'Company', group: 'All Supplier Groups', country: '—', taxId: '—', defaultCurrency: '', email: '', mobile: '', primaryAddress: '', notes: '', status: 'Active' },
+  { id: 'Apex Components Pvt Ltd', name: 'Apex Components Pvt Ltd', type: 'Company', group: 'All Supplier Groups', country: 'India', taxId: '27AAECA1234A1Z5', defaultCurrency: 'INR', email: 'procurement@apex.example', mobile: '+91 98765 43210', primaryAddress: 'Pune, Maharashtra', notes: 'Primary manufacturing supplier.', status: 'Active' },
+]

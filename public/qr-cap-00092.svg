@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 84" role="img" aria-label="QR code">
+  <rect width="84" height="84" fill="#fff"/>
+  <g fill="#111827">
+    <path d="M4 4h24v24H4zM8 8v16h16V8zM12 12h8v8h-8zM56 4h24v24H56zM60 8v16h16V8zM64 12h8v8h-8zM4 56h24v24H4zM8 60v16h16V60zM12 64h8v8h-8z"/>
+    <path d="M34 4h8v6h-8zM46 6h6v8h-6zM34 16h6v8h-6zM44 18h10v6h-10zM32 30h6v10h-6zM42 30h8v6h-8zM54 32h6v8h-6zM66 32h8v6h-8zM76 34h4v10h-4zM34 44h6v8h-6zM44 40h8v6h-8zM56 44h8v8h-8zM68 46h6v10h-6zM32 56h8v6h-8zM44 54h6v12h-6zM54 58h6v6h-6zM64 60h8v6h-8zM34 68h6v8h-6zM46 70h8v6h-8zM58 68h6v12h-6zM70 72h10v8H70z"/>
+  </g>
+</svg>
