@@ -7,6 +7,7 @@ import { PageHeader } from "../components/ui/PageHeader";
 import { Select } from "../components/ui/Select";
 import { Badge } from "../components/ui/Badge";
 import { stockMovementRows } from "../data/stockMovements";
+import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function StockMovementsPage() {
@@ -35,7 +36,7 @@ export function StockMovementsPage() {
                 breadcrumb="Home / Inventory / Stock Movements"
                 title="Stock Movements"
                 subtitle="43 movement records for Apex Manufacturing Pvt Ltd"
-                actions={<Button onClick={() => navigate("/inventory/stock-entries/new")}>Record Stock Movement</Button>}
+                actions={<Button onClick={() => navigate("/inventory/stock-entries/new")}><Plus size={16} aria-hidden="true" />Record Stock Movement</Button>}
             />
             <Card className="filter-bar stock-filter-bar">
                 <Input label="Search" placeholder="Search by name" />

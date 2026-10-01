@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Package } from "lucide-react";
+import { Package, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { items } from "../data/items";
 import { Badge } from "../components/ui/Badge";
@@ -60,6 +60,7 @@ export function ItemsPage() {
                 subtitle="Catalog and type records for reusable packaging parts."
                 actions={
                     <Button onClick={() => setDialogOpen(true)}>
+                        <Plus size={16} aria-hidden="true" />
                         Add item
                     </Button>
                 }

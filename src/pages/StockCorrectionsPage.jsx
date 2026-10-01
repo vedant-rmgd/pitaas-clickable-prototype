@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Plus } from "lucide-react";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
@@ -49,6 +50,7 @@ export function StockCorrectionsPage() {
                 subtitle="48 stock corrections for Apex Manufacturing Pvt Ltd"
                 actions={
                     <Button onClick={() => setDialogOpen(true)}>
+                        <Plus size={16} aria-hidden="true" />
                         Record Stock Correction
                     </Button>
                 }
