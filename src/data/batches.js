@@ -1,4 +1,6 @@
-export const batches = [
+import { getLocationIdByName } from '../utils/locationHelpers.js'
+
+const legacyBatches = [
   {
     id: 'october-supplier-batch',
     batchName: 'October Supplier Batch',
@@ -123,3 +125,9 @@ export const batches = [
     ],
   },
 ]
+
+export const batches = legacyBatches.map((batch) => ({
+  ...batch,
+  receivingLocationId: getLocationIdByName(batch.receivingLocation),
+  locationDistribution: batch.locationDistribution.map(({ locationId, itemCount }) => ({ locationId, itemCount })),
+}))

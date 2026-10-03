@@ -6,6 +6,9 @@ import { SuppliersPage } from '../pages/SuppliersPage'
 import { NewArrivalPage } from '../pages/universalSets/NewArrivalPage'
 import { BatchesPage } from '../pages/universalSets/BatchesPage'
 import { BatchDetailPage } from '../pages/universalSets/BatchDetailPage'
+import { ScanItemsPage } from '../pages/scan/ScanItemsPage'
+import { LocationsPage } from '../pages/setup/LocationsPage'
+import { LocationStockPage } from '../pages/reports/LocationStockPage'
 
 export function AppRoutes() {
   return <Routes>
@@ -15,11 +18,11 @@ export function AppRoutes() {
       <Route path="/universal-sets/new-arrival" element={<NewArrivalPage />} />
       <Route path="/universal-sets/batches" element={<BatchesPage />} />
       <Route path="/universal-sets/batches/:batchId" element={<BatchDetailPage />} />
-      <Route path="/scan" element={<PlaceholderPage title="Scan Items" subtitle="This page will be implemented in a later task." />} />
+      <Route path="/scan" element={<ScanItemsPage />} />
       <Route path="/reports/batch-tracking" element={<PlaceholderPage title="Batch Tracking" subtitle="This page will be implemented in a later task." />} />
-      <Route path="/reports/location-stock" element={<PlaceholderPage title="Location Stock" subtitle="This page will be implemented in a later task." />} />
+      <Route path="/reports/location-stock" element={<LocationStockPage />} />
       <Route path="/reports/reconciliation" element={<PlaceholderPage title="Reconciliation" subtitle="This page will be implemented in a later task." />} />
-      <Route path="/setup/locations" element={<PlaceholderPage title="Locations" subtitle="This page will be implemented in a later task." />} />
+      <Route path="/setup/locations" element={<LocationsPage />} />
       <Route path="/setup/suppliers" element={<SuppliersPage />} />
       <Route path="/settings" element={<PlaceholderPage title="Settings" subtitle="This page will be implemented in a later task." />} />
       <Route path="*" element={<Navigate to="/home" replace />} />

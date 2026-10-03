@@ -7,11 +7,11 @@ export function UploadDocumentSection({ file, onFileChange, onRemove }) {
     title="Invoice / Receipt"
     description="Attach the supplier invoice or receipt to this arrival."
   >
-    <div className="flex min-h-32 flex-col items-center justify-center rounded-lg border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-5 py-7 text-center">
-      <FileUp size={22} className="text-[var(--text-muted)]" aria-hidden="true" />
-      <p className="mt-3 text-sm font-semibold text-[var(--text)]">{file ? 'Invoice or receipt selected' : 'Upload an invoice or receipt'}</p>
-      <p className="mt-1 text-xs text-[var(--text-muted)]">Upload the invoice or receipt for this arrival. PDF, PNG, JPG, and JPEG files are supported.</p>
-      {file && <p className="mt-3 max-w-full truncate text-sm font-semibold text-[var(--text)]" title={file.name}>{file.name}</p>}
+    <div className="flex min-h-32 flex-col items-center justify-center rounded-lg border border-dashed border-(--border-strong) bg-(--surface-muted) px-5 py-7 text-center">
+      <FileUp size={22} className="text-(--text-muted)" aria-hidden="true" />
+      <p className="mt-3 text-sm font-semibold text-(--text)">{file ? 'Invoice or receipt selected' : 'Upload an invoice or receipt'}</p>
+      <p className="mt-1 text-xs text-(--text-muted)">Upload the invoice or receipt for this arrival. PDF, PNG, JPG, and JPEG files are supported.</p>
+      {file && <p className="mt-3 max-w-full truncate text-sm font-semibold text-(--text)" title={file.name}>{file.name}</p>}
       <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
         <input
           id="arrival-document"

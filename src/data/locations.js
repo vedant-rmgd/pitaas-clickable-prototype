@@ -1,4 +1,5 @@
-export const locations = [
+/* Legacy warehouse-only records retained as a non-runtime reference.
+const legacyLocations = [
   { id: 'pune-warehouse', name: 'Pune Warehouse', type: 'Customer Warehouse' },
   { id: 'mumbai-warehouse', name: 'Mumbai Warehouse', type: 'Customer Warehouse' },
   { id: 'delhi-warehouse', name: 'Delhi Warehouse', type: 'Customer Warehouse' },
@@ -6,4 +7,86 @@ export const locations = [
   { id: 'tata-motors-bangalore', name: 'Tata Motors Bangalore', type: 'Company Site' },
   { id: 'clw-pune', name: 'Pune Co-located Warehouse', type: 'Co-located Warehouse (CLW)' },
   { id: 'in-transit', name: 'In Transit', type: 'In Transit' },
+] */
+
+export const locationTypes = [
+  'Customer Warehouse',
+  'Equipment Supplier Warehouse',
+  'Company Site',
+  'Co-located Warehouse (CLW)',
+]
+
+export const locations = [
+  {
+    id: 'pune-warehouse',
+    name: 'Pune Warehouse',
+    type: 'Customer Warehouse',
+    organization: 'Apex Manufacturing Pvt Ltd',
+    city: 'Pune',
+    address: 'Pune, Maharashtra',
+    status: 'Active',
+  },
+  {
+    id: 'mumbai-warehouse',
+    name: 'Mumbai Warehouse',
+    type: 'Customer Warehouse',
+    organization: 'Apex Manufacturing Pvt Ltd',
+    city: 'Mumbai',
+    address: 'Mumbai, Maharashtra',
+    status: 'Active',
+  },
+  {
+    id: 'delhi-warehouse',
+    name: 'Delhi Warehouse',
+    type: 'Customer Warehouse',
+    organization: 'Apex Manufacturing Pvt Ltd',
+    city: 'Delhi',
+    address: 'New Delhi, Delhi',
+    status: 'Active',
+  },
+  {
+    id: 'abc-equipment-supplier-mumbai',
+    name: 'ABC Equipment Supplier – Mumbai',
+    type: 'Equipment Supplier Warehouse',
+    organization: 'ABC Equipment Supplier',
+    city: 'Mumbai',
+    address: 'Andheri East, Mumbai',
+    status: 'Active',
+  },
+  {
+    id: 'xyz-equipment-supplier-pune',
+    name: 'XYZ Equipment Supplier – Pune',
+    type: 'Equipment Supplier Warehouse',
+    organization: 'XYZ Equipment Supplier',
+    city: 'Pune',
+    address: 'Chakan, Pune',
+    status: 'Active',
+  },
+  {
+    id: 'tata-motors-bangalore',
+    name: 'Tata Motors Bangalore',
+    type: 'Company Site',
+    organization: 'Tata Motors',
+    city: 'Bangalore',
+    address: 'Bidadi, Bangalore',
+    status: 'Active',
+  },
+  {
+    id: 'clw-pune',
+    name: 'Pune Co-located Warehouse',
+    type: 'Co-located Warehouse (CLW)',
+    organization: 'Apex / Local Operator',
+    city: 'Pune',
+    address: 'Talegaon, Pune',
+    status: 'Active',
+  },
+  {
+    id: 'clw-bangalore',
+    name: 'Bangalore CLW',
+    type: 'Co-located Warehouse (CLW)',
+    organization: 'Local Operator',
+    city: 'Bangalore',
+    address: 'Peenya, Bangalore',
+    status: 'Active',
+  },
 ]

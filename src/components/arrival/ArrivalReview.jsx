@@ -5,11 +5,11 @@ import { arrivalItemTypes } from '../../data/arrivalItemTypes'
 
 function ReviewGroup({ title, rows }) {
   return <div>
-    <h3 className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">{title}</h3>
+    <h3 className="text-xs font-semibold uppercase tracking-wide text-(--text-muted)">{title}</h3>
     <dl className="mt-3 grid gap-x-5 gap-y-3 sm:grid-cols-2">
       {rows.map(([label, value]) => <div key={label}>
-        <dt className="text-xs font-medium text-[var(--text-muted)]">{label}</dt>
-        <dd className="mt-1 break-words text-sm font-semibold text-[var(--text)]">{value}</dd>
+        <dt className="text-xs font-medium text-(--text-muted)">{label}</dt>
+        <dd className="mt-1 break-words text-sm font-semibold text-(--text)">{value}</dd>
       </div>)}
     </dl>
   </div>
@@ -25,14 +25,14 @@ export function ArrivalReview({ values, suppliers, locations, expectedItems, sca
     title="Review Arrival"
     description="Review the arrival details before saving it."
   >
-    <div className="space-y-5 rounded-lg border border-[var(--border)] bg-[var(--surface-muted)] p-4 sm:p-5">
+    <div className="space-y-5 rounded-lg border border-(--border) bg-(--surface-muted) p-4 sm:p-5">
       <ReviewGroup title="Batch details" rows={[
         ['Batch Name', values.batchName.trim() || 'Not entered'],
         ['Supplier', supplierName],
         ['Receiving Warehouse', locationName],
         ['Date', values.date || 'Not selected'],
       ]} />
-      <div className="border-t border-[var(--border)] pt-5">
+      <div className="border-t border-(--border) pt-5">
         <ReviewGroup title="Received" rows={[
           ['Universal Sets', values.receiveUniversalSets ? values.universalSetCount : 0],
           ['Extra Caps', values.receiveIndividualItems ? values.extraCaps : 0],
@@ -40,7 +40,7 @@ export function ArrivalReview({ values, suppliers, locations, expectedItems, sca
           ['Extra Pallets', values.receiveIndividualItems ? values.extraPallets : 0],
         ]} />
       </div>
-      <div className="border-t border-[var(--border)] pt-5">
+      <div className="border-t border-(--border) pt-5">
         <ReviewGroup title="Expected items" rows={[
           ['Caps', expectedItems.caps],
           ['Sleeves', expectedItems.sleeves],
@@ -48,7 +48,7 @@ export function ArrivalReview({ values, suppliers, locations, expectedItems, sca
           ['Total', expectedItems.total],
         ]} />
       </div>
-      <div className="border-t border-[var(--border)] pt-5">
+      <div className="border-t border-(--border) pt-5">
         <ReviewGroup title="Scanned items" rows={[
           ['Caps', `${scannedItems.caps.length} / ${expectedItems.caps}`],
           ['Sleeves', `${scannedItems.sleeves.length} / ${expectedItems.sleeves}`],
@@ -56,12 +56,12 @@ export function ArrivalReview({ values, suppliers, locations, expectedItems, sca
           ['Total', `${totalScanned} / ${expectedItems.total}`],
         ]} />
       </div>
-      <div className="border-t border-[var(--border)] pt-5">
+      <div className="border-t border-(--border) pt-5">
         <ReviewGroup title="Document" rows={[['Invoice / Receipt', documentName || 'No document uploaded']]} />
       </div>
     </div>
-    <div className="mt-5 flex flex-col gap-3 border-t border-[var(--border)] pt-4 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex items-center gap-2 text-xs leading-5 text-[var(--text-muted)]">
+    <div className="mt-5 flex flex-col gap-3 border-t border-(--border) pt-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex items-center gap-2 text-xs leading-5 text-(--text-muted)">
         <Badge tone={scansComplete ? 'success' : 'warning'}>{scansComplete ? 'Ready to save' : 'Incomplete'}</Badge>
         <span>{scansComplete ? 'All expected items have been scanned.' : remainingItems > 0 ? `${remainingItems} expected item${remainingItems === 1 ? '' : 's'} have not been scanned yet.` : 'Complete the required arrival details to enable saving.'}</span>
       </div>

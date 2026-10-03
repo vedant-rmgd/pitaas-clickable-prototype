@@ -46,10 +46,10 @@ export function BatchDetailsSection({ suppliers, locations, values, onChange }) 
         onChange={(event) => onChange('date', event.target.value)}
       />
       <label className="flex flex-col gap-1.5 md:col-span-2" htmlFor="arrival-notes">
-        <span className="text-xs font-semibold text-[var(--text)]">Notes</span>
+        <span className="text-xs font-semibold text-(--text)">Notes</span>
         <textarea
           id="arrival-notes"
-          className="min-h-20 w-full resize-y rounded-lg border border-[var(--border-strong)] bg-white px-3 py-2.5 text-sm text-[var(--text)] outline-none transition focus:border-[var(--primary)] focus:ring-4 focus:ring-blue-100"
+          className="min-h-20 w-full resize-y rounded-lg border border-(--border-strong) bg-white px-3 py-2.5 text-sm text-(--text) outline-none transition focus:border-(--primary) focus:ring-4 focus:ring-blue-100"
           placeholder="Add optional notes about this arrival"
           value={values.notes}
           onChange={(event) => onChange('notes', event.target.value)}

@@ -445,6 +445,16 @@
 .button--primary:hover {
     background: #1d4ed8;
 }
+.button--success {
+    color: #fff;
+    border-color: #16a34a;
+    background: #16a34a;
+}
+.button--success:hover {
+    color: #fff;
+    border-color: #15803d;
+    background: #15803d;
+}
 .button--secondary {
     color: var(--text);
     border-color: var(--border-strong);

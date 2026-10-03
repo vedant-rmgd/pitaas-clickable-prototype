@@ -14,6 +14,7 @@ import { Dialog } from '../../components/ui/Dialog'
 import { locations } from '../../data/locations'
 import { suppliers } from '../../data/suppliers'
 import { arrivalItemTypes } from '../../data/arrivalItemTypes'
+import { formatQrId } from '../../utils/qrId'
 
 function getLocalDate() {
   const now = new Date()
@@ -101,6 +102,21 @@ export function NewArrivalPage() {
   }
 
   const activeScanner = arrivalItemTypes.find((item) => item.itemType === scannerType)
+  const demoQrIdsByKey = {}
+  const reservedDemoQrIds = new Set(Object.values(scannedItems).flat().map((item) => item.qrId))
+  let nextDemoQrNumber = 1
+  arrivalItemTypes.forEach((item) => {
+    const itemScannedIds = scannedItems[item.key].map((scannedItem) => scannedItem.qrId)
+    const itemDemoIds = [...itemScannedIds]
+    while (itemDemoIds.length < expectedItems[item.expectedKey]) {
+      const qrId = formatQrId(nextDemoQrNumber)
+      nextDemoQrNumber += 1
+      if (reservedDemoQrIds.has(qrId)) continue
+      itemDemoIds.push(qrId)
+      reservedDemoQrIds.add(qrId)
+    }
+    demoQrIdsByKey[item.key] = itemDemoIds
+  })
   const totalScanned = arrivalItemTypes.reduce((total, item) => total + scannedItems[item.key].length, 0)
   const requiredDetailsComplete = Boolean(values.batchName.trim() && values.supplierId && values.receivingLocationId && values.date)
   const hasReceivedItems = values.receiveUniversalSets || values.receiveIndividualItems
@@ -166,6 +182,7 @@ export function NewArrivalPage() {
       itemType={activeScanner.itemType}
       expectedCount={expectedItems[activeScanner.expectedKey]}
       scannedItems={scannedItems[activeScanner.key]}
+      demoQrIds={demoQrIdsByKey[activeScanner.key]}
       onScan={(qrId) => handleScan(activeScanner.itemType, qrId)}
       onRemove={(qrId) => handleRemoveScan(activeScanner.itemType, qrId)}
     />}
@@ -174,10 +191,7 @@ export function NewArrivalPage() {
       onClose={() => setSavedArrival(null)}
       title="Arrival saved successfully"
       description="The first In Scan has been recorded for this arrival."
-      footer={<>
-        <Button variant="secondary" onClick={() => setSavedArrival(null)}>Close</Button>
-        <Button onClick={() => savedArrival && navigate(`/universal-sets/batches/${savedArrival.id}`)}>View Batch</Button>
-      </>}
+      footer={<Button onClick={() => savedArrival && navigate(`/universal-sets/batches/${savedArrival.id}`)}>View Batch</Button>}
     >
       <div className="rounded-lg border border-green-100 bg-green-50 px-4 py-4">
         <p className="text-sm font-semibold text-green-800">{savedArrival?.expected.total} items were registered at {savedArrival?.receivingLocationName}.</p>

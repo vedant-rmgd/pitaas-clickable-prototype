@@ -7,7 +7,6 @@ import { LocationDistribution } from '../../components/batch/LocationDistributio
 import { MovementHistory } from '../../components/batch/MovementHistory'
 import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
-import { Badge } from '../../components/ui/Badge'
 import { PageContainer } from '../../components/ui/PageContainer'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { batches } from '../../data/batches'
@@ -15,7 +14,6 @@ import { documents } from '../../data/documents'
 import { movements } from '../../data/movements'
 import { qrItems } from '../../data/qrItems'
 import { formatDate } from '../../utils/formatDate'
-import { batchStatusTones } from '../../components/batch/batchStatus'
 
 export function BatchDetailPage() {
   const { batchId } = useParams()
@@ -33,7 +31,7 @@ export function BatchDetailPage() {
       actions={<Button variant="secondary" onClick={() => navigate('/universal-sets/batches')}>Back to Batches</Button>}
     />
     <Card>
-      <p className="text-sm text-[var(--text-muted)]">Check the batch link and try again.</p>
+      <p className="text-sm text-(--text-muted)">Check the batch link and try again.</p>
     </Card>
   </PageContainer>
 
@@ -42,10 +40,7 @@ export function BatchDetailPage() {
       breadcrumb="Home / Universal Sets / Batches"
       title={batch.batchName}
       subtitle={`${batch.supplier} • Received ${formatDate(batch.createdDate)}`}
-      actions={<div className="flex flex-wrap items-center gap-3">
-        <Badge tone={batchStatusTones[batch.status] ?? 'neutral'}>{batch.status}</Badge>
-        <Button variant="secondary" onClick={() => navigate('/universal-sets/batches')}>Back to Batches</Button>
-      </div>}
+      actions={<Button variant="secondary" onClick={() => navigate('/universal-sets/batches')}>Back to Batches</Button>}
     />
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
       <BatchSummary batch={batch} />

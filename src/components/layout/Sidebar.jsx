@@ -29,7 +29,7 @@ const navigationGroups = [
     icon: FileChartColumn,
     children: [
       { label: 'Batch Tracking', to: '/reports/batch-tracking' },
-      { label: 'Location Stock', to: '/reports/location-stock' },
+      { label: 'Warehouse Stock', to: '/reports/location-stock' },
       { label: 'Reconciliation', to: '/reports/reconciliation' },
     ],
   },
