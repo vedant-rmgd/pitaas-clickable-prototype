@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import {
-  Archive,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -10,31 +9,71 @@ import {
   Home as HomeIcon,
   LogOut,
   Package,
-  Puzzle,
+  ScanLine,
   Settings,
-  ShieldCheck,
-  Warehouse,
   X,
 } from 'lucide-react'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
-const navItems = [
-  { label: 'Assets', to: '/assets', icon: Archive },
-  { label: 'Audits', to: '/audits', icon: ShieldCheck },
-  { label: 'Warehouses', to: '/warehouses', icon: Warehouse },
-  { label: 'Reports', to: '/reports/items-per-warehouse', icon: FileChartColumn },
+const navigationGroups = [
+  {
+    label: 'Universal Sets',
+    icon: Package,
+    children: [
+      { label: 'New Arrival', to: '/universal-sets/new-arrival' },
+      { label: 'Batches', to: '/universal-sets/batches' },
+    ],
+  },
+  {
+    label: 'Reports',
+    icon: FileChartColumn,
+    children: [
+      { label: 'Batch Tracking', to: '/reports/batch-tracking' },
+      { label: 'Location Stock', to: '/reports/location-stock' },
+      { label: 'Reconciliation', to: '/reports/reconciliation' },
+    ],
+  },
+  {
+    label: 'Setup',
+    icon: Database,
+    children: [
+      { label: 'Locations', to: '/setup/locations' },
+      { label: 'Suppliers', to: '/setup/suppliers' },
+    ],
+  },
 ]
+
+function isPathActive(pathname, to) {
+  return pathname === to || pathname.startsWith(`${to}/`)
+}
 
 export function Sidebar({ collapsed, onToggle, mobileOpen, onClose }) {
   const location = useLocation()
-  const navigate = useNavigate()
-  const [inventoryOpen, setInventoryOpen] = useState(true)
-  const [masterDataOpen, setMasterDataOpen] = useState(false)
-  const isInventoryActive = location.pathname.startsWith('/items') || location.pathname.startsWith('/inventory')
-  const isMasterDataActive = location.pathname.startsWith('/master-data')
-  const isAssetActive = location.pathname.startsWith('/assets') || location.pathname.startsWith('/am/assets')
-  const isAuditActive = location.pathname.startsWith('/audits') || location.pathname.startsWith('/inventory/audits')
-  const isWarehouseActive = location.pathname.startsWith('/warehouses') || location.pathname.startsWith('/inventory/warehouses')
+  const [openGroups, setOpenGroups] = useState({
+    'Universal Sets': true,
+    Reports: false,
+    Setup: false,
+  })
+
+  const toggleGroup = (label) => {
+    if (collapsed) {
+      onToggle()
+      setOpenGroups((current) => ({ ...current, [label]: true }))
+      return
+    }
+
+    setOpenGroups((current) => ({ ...current, [label]: !current[label] }))
+  }
+
+  const renderGroup = ({ label, icon: Icon, children }) => {
+    const groupOpen = openGroups[label]
+    const groupActive = children.some((child) => isPathActive(location.pathname, child.to))
+
+    return <div className={`nav-group ${groupActive ? 'nav-group--active' : ''}`} key={label}>
+      <button type="button" className={`nav-link nav-group__trigger ${groupActive ? 'nav-link--active' : ''}`} title={collapsed ? label : undefined} aria-expanded={groupOpen} onClick={() => toggleGroup(label)}><Icon size={19} strokeWidth={1.8} />{!collapsed && <span>{label}</span>}{!collapsed && (groupOpen ? <ChevronUp className="nav-group__chevron" size={17} /> : <ChevronDown className="nav-group__chevron" size={17} />)}</button>
+      {!collapsed && groupOpen && <div className="nav-group__children">{children.map((child) => <NavLink key={child.to} to={child.to} className={({ isActive }) => `nav-link nav-link--child ${isActive || isPathActive(location.pathname, child.to) ? 'nav-link--active' : ''}`} onClick={onClose}>{child.label}</NavLink>)}</div>}
+    </div>
+  }
 
   return <>
     {mobileOpen && <button className="sidebar-scrim" aria-label="Close navigation" onClick={onClose} />}
@@ -46,28 +85,13 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onClose }) {
       </div>
 
       <nav className="sidebar__nav" aria-label="Primary navigation">
-        <NavLink to="/" end className={({ isActive }) => `nav-link ${isActive ? 'nav-link--active' : ''}`} title={collapsed ? 'Home' : undefined} onClick={onClose}><HomeIcon size={19} strokeWidth={1.8} />{!collapsed && <span>Home</span>}</NavLink>
+        <NavLink to="/home" className={`nav-link ${location.pathname === '/home' || location.pathname === '/' ? 'nav-link--active' : ''}`} title={collapsed ? 'Home' : undefined} onClick={onClose}><HomeIcon size={19} strokeWidth={1.8} />{!collapsed && <span>Home</span>}</NavLink>
 
-        <div className={`nav-group ${isInventoryActive ? 'nav-group--active' : ''}`}>
-          <button type="button" className={`nav-link nav-group__trigger ${isInventoryActive ? 'nav-link--active' : ''}`} title={collapsed ? 'Inventory' : undefined} aria-expanded={inventoryOpen} onClick={() => { navigate('/inventory'); setInventoryOpen(true); if (collapsed) onToggle() }}><Package size={19} strokeWidth={1.8} />{!collapsed && <span>Inventory</span>}{!collapsed && (inventoryOpen ? <ChevronUp className="nav-group__chevron" size={17} /> : <ChevronDown className="nav-group__chevron" size={17} />)}</button>
-          {!collapsed && inventoryOpen && <div className="nav-group__children">
-            <NavLink to="/items" className={({ isActive }) => `nav-link nav-link--child ${isActive ? 'nav-link--active' : ''}`} onClick={onClose}>Items</NavLink>
-            <NavLink to="/inventory/stock-entries" className={({ isActive }) => `nav-link nav-link--child ${isActive ? 'nav-link--active' : ''}`} onClick={onClose}>Stock Movements</NavLink>
-            <NavLink to="/inventory/stock-adjustments" className={({ isActive }) => `nav-link nav-link--child ${isActive ? 'nav-link--active' : ''}`} onClick={onClose}>Stock Adjustments</NavLink>
-          </div>}
-        </div>
+        {renderGroup(navigationGroups[0])}
 
-        {navItems.map(({ label, to, icon: Icon }) => <NavLink key={label} to={to} className={({ isActive }) => `nav-link ${(isActive || (label === 'Assets' && isAssetActive) || (label === 'Audits' && isAuditActive) || (label === 'Warehouses' && isWarehouseActive)) ? 'nav-link--active' : ''}`} title={collapsed ? label : undefined} onClick={onClose}><Icon size={19} strokeWidth={1.8} />{!collapsed && <span>{label}</span>}</NavLink>)}
-
-        <div className="sidebar__utilities">
-          {!collapsed && <div className="sidebar__section-label">Utilities</div>}
-          <NavLink to="/addons" className={({ isActive }) => `nav-link ${isActive ? 'nav-link--active' : ''}`} title={collapsed ? 'Modules' : undefined} onClick={onClose}><Puzzle size={19} strokeWidth={1.8} />{!collapsed && <span>Modules</span>}</NavLink>
-          <NavLink to="/settings/change-password" className={({ isActive }) => `nav-link ${isActive ? 'nav-link--active' : ''}`} title={collapsed ? 'Settings' : undefined} onClick={onClose}><Settings size={19} strokeWidth={1.8} />{!collapsed && <span>Settings</span>}</NavLink>
-          <div className={`nav-group ${isMasterDataActive ? 'nav-group--active' : ''}`}>
-            <button type="button" className={`nav-link nav-group__trigger ${isMasterDataActive ? 'nav-link--active' : ''}`} title={collapsed ? 'Master Data' : undefined} aria-expanded={masterDataOpen} onClick={() => { if (collapsed) { onToggle(); setMasterDataOpen(true) } else setMasterDataOpen((open) => !open) }}><Database size={19} strokeWidth={1.8} />{!collapsed && <span>Master Data</span>}{!collapsed && (masterDataOpen ? <ChevronUp className="nav-group__chevron" size={17} /> : <ChevronDown className="nav-group__chevron" size={17} />)}</button>
-            {!collapsed && masterDataOpen && <div className="nav-group__children"><NavLink to="/master-data/cost-centers" className={({ isActive }) => `nav-link nav-link--child ${isActive ? 'nav-link--active' : ''}`} onClick={onClose}>Cost Centers</NavLink><NavLink to="/master-data/suppliers" className={({ isActive }) => `nav-link nav-link--child ${isActive ? 'nav-link--active' : ''}`} onClick={onClose}>Suppliers</NavLink><NavLink to="/master-data/uoms" className={({ isActive }) => `nav-link nav-link--child ${isActive ? 'nav-link--active' : ''}`} onClick={onClose}>UoM</NavLink></div>}
-          </div>
-        </div>
+        <NavLink to="/scan" className={`nav-link ${isPathActive(location.pathname, '/scan') ? 'nav-link--active' : ''}`} title={collapsed ? 'Scan Items' : undefined} onClick={onClose}><ScanLine size={19} strokeWidth={1.8} />{!collapsed && <span>Scan Items</span>}</NavLink>
+        {navigationGroups.slice(1).map(renderGroup)}
+        <NavLink to="/settings" className={`nav-link ${isPathActive(location.pathname, '/settings') ? 'nav-link--active' : ''}`} title={collapsed ? 'Settings' : undefined} onClick={onClose}><Settings size={19} strokeWidth={1.8} />{!collapsed && <span>Settings</span>}</NavLink>
       </nav>
 
       <div className="sidebar__footer"><button className="nav-link nav-link--logout" title={collapsed ? 'Logout' : undefined}><LogOut size={19} strokeWidth={1.8} />{!collapsed && <span>Logout</span>}</button></div>
