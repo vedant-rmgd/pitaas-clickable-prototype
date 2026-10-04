@@ -2,6 +2,7 @@ import { Button } from '../ui/Button'
 import { Badge } from '../ui/Badge'
 import { ArrivalSection } from './ArrivalSection'
 import { arrivalItemTypes } from '../../data/arrivalItemTypes'
+import { getSupplierName } from '../../utils/supplierHelpers'
 
 function ReviewGroup({ title, rows }) {
   return <div>
@@ -15,8 +16,8 @@ function ReviewGroup({ title, rows }) {
   </div>
 }
 
-export function ArrivalReview({ values, suppliers, locations, expectedItems, scannedItems, documentName, canSave, scansComplete, remainingItems, onSave }) {
-  const supplierName = suppliers.find((supplier) => supplier.id === values.supplierId)?.name ?? 'Not selected'
+export function ArrivalReview({ values, locations, expectedItems, scannedItems, documentName, canSave, scansComplete, remainingItems, onSave }) {
+  const supplierName = getSupplierName(values.supplierId, 'Not selected')
   const locationName = locations.find((location) => location.id === values.receivingLocationId)?.name ?? 'Not selected'
   const totalScanned = arrivalItemTypes.reduce((total, item) => total + scannedItems[item.key].length, 0)
 

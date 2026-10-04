@@ -12,9 +12,10 @@ import { PageHeader } from '../../components/ui/PageHeader'
 import { Button } from '../../components/ui/Button'
 import { Dialog } from '../../components/ui/Dialog'
 import { locations } from '../../data/locations'
-import { suppliers } from '../../data/suppliers'
 import { arrivalItemTypes } from '../../data/arrivalItemTypes'
+import { batches } from '../../data/batches'
 import { formatQrId } from '../../utils/qrId'
+import { getActiveSuppliers } from '../../utils/supplierHelpers'
 
 function getLocalDate() {
   const now = new Date()
@@ -24,6 +25,7 @@ function getLocalDate() {
 
 export function NewArrivalPage() {
   const navigate = useNavigate()
+  const activeSuppliers = getActiveSuppliers()
   const [values, setValues] = useState({
     batchName: '',
     supplierId: '',
@@ -128,13 +130,11 @@ export function NewArrivalPage() {
     if (!canSave) return
 
     const batchId = values.batchName.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'new-arrival'
-    const supplierName = suppliers.find((supplier) => supplier.id === values.supplierId)?.name ?? 'Selected supplier'
     const locationName = locations.find((location) => location.id === values.receivingLocationId)?.name ?? 'Selected warehouse'
     const arrival = {
       id: batchId,
       batchName: values.batchName.trim(),
       supplierId: values.supplierId,
-      supplierName,
       receivingLocationId: values.receivingLocationId,
       receivingLocationName: locationName,
       date: values.date,
@@ -151,6 +151,10 @@ export function NewArrivalPage() {
     setSavedArrival(arrival)
   }
 
+  const savedBatchPath = savedArrival && batches.some((batch) => batch.id === savedArrival.id)
+    ? `/universal-sets/batches/${savedArrival.id}`
+    : '/universal-sets/batches'
+
   return <PageContainer>
     <PageHeader
       breadcrumb="Home / Universal Sets / New Arrival"
@@ -158,14 +162,13 @@ export function NewArrivalPage() {
       subtitle="Record new Universal Packaging received from a supplier."
     />
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
-      <BatchDetailsSection suppliers={suppliers} locations={locations} values={values} onChange={updateValue} />
+      <BatchDetailsSection suppliers={activeSuppliers} locations={locations} values={values} onChange={updateValue} />
       <ReceivedItemsSection values={values} onToggle={toggleReceivedType} onQuantityChange={updateQuantity} />
       <ExpectedItemsSummary values={expectedItems} />
       <ScanItemsSection expectedItems={expectedItems} scannedItems={scannedItems} onOpenScanner={(item) => setScannerType(item.itemType)} />
       <UploadDocumentSection file={documentFile} onFileChange={setDocumentFile} onRemove={() => setDocumentFile(null)} />
       <ArrivalReview
         values={values}
-        suppliers={suppliers}
         locations={locations}
         expectedItems={expectedItems}
         scannedItems={scannedItems}
@@ -191,7 +194,7 @@ export function NewArrivalPage() {
       onClose={() => setSavedArrival(null)}
       title="Arrival saved successfully"
       description="The first In Scan has been recorded for this arrival."
-      footer={<Button onClick={() => savedArrival && navigate(`/universal-sets/batches/${savedArrival.id}`)}>View Batch</Button>}
+      footer={<Button onClick={() => navigate(savedBatchPath)}>{savedBatchPath.includes('/batches/') ? 'View Batch Detail' : 'Back to Batches'}</Button>}
     >
       <div className="rounded-lg border border-green-100 bg-green-50 px-4 py-4">
         <p className="text-sm font-semibold text-green-800">{savedArrival?.expected.total} items were registered at {savedArrival?.receivingLocationName}.</p>

@@ -74,8 +74,8 @@ export function LocationStockPage() {
         <Select label="Type" value={selectedType} onChange={(event) => setSelectedType(event.target.value)} options={[{ value: '', label: 'All Warehouses' }, ...locationTypes.map((type) => ({ value: type, label: type }))]} />
       </div>
       {filteredLocations.length === 0 ? <div className="px-5 py-12 text-center sm:px-6">
-        <p className="text-sm font-semibold text-(--text)">No warehouses found.</p>
-        <p className="mt-1 text-sm text-(--text-muted)">Try another warehouse name, organization, location, or type.</p>
+        <p className="text-sm font-semibold text-(--text)">{activeLocations.length === 0 ? 'No warehouses found.' : 'No matching warehouses found.'}</p>
+        <p className="mt-1 text-sm text-(--text-muted)">{activeLocations.length === 0 ? 'Create an active location to view warehouse stock.' : 'Try changing your warehouse name, organization, location, or type filter.'}</p>
       </div> : <div className="grid gap-3 p-5 sm:p-6">
         {filteredLocations.map((location) => <button key={location.id} type="button" className="flex min-w-0 flex-col items-start gap-2 rounded-lg border border-(--border) bg-white p-4 text-left transition hover:border-amber-300 hover:bg-amber-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onClick={() => setSelectedLocationId(location.id)}>
           <div className="flex w-full min-w-0 items-start justify-between gap-3">

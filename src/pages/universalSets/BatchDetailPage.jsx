@@ -14,6 +14,7 @@ import { documents } from '../../data/documents'
 import { movements } from '../../data/movements'
 import { qrItems } from '../../data/qrItems'
 import { formatDate } from '../../utils/formatDate'
+import { getSupplierName } from '../../utils/supplierHelpers'
 
 export function BatchDetailPage() {
   const { batchId } = useParams()
@@ -39,7 +40,7 @@ export function BatchDetailPage() {
     <PageHeader
       breadcrumb="Home / Universal Sets / Batches"
       title={batch.batchName}
-      subtitle={`${batch.supplier} • Received ${formatDate(batch.createdDate)}`}
+      subtitle={`${getSupplierName(batch.supplierId)} • Received ${formatDate(batch.createdDate)}`}
       actions={<Button variant="secondary" onClick={() => navigate('/universal-sets/batches')}>Back to Batches</Button>}
     />
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">

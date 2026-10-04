@@ -28,7 +28,6 @@ const navigationGroups = [
     label: 'Reports',
     icon: FileChartColumn,
     children: [
-      { label: 'Batch Tracking', to: '/reports/batch-tracking' },
       { label: 'Warehouse Stock', to: '/reports/location-stock' },
       { label: 'Reconciliation', to: '/reports/reconciliation' },
     ],

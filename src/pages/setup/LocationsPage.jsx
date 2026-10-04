@@ -15,6 +15,7 @@ export function LocationsPage() {
   const [query, setQuery] = useState('')
   const [typeFilter, setTypeFilter] = useState('')
   const [formState, setFormState] = useState({ open: false, mode: 'create', location: null })
+  const [message, setMessage] = useState('')
 
   const filteredLocations = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
@@ -25,11 +26,18 @@ export function LocationsPage() {
     })
   }, [locationList, query, typeFilter])
 
-  const openCreate = () => setFormState({ open: true, mode: 'create', location: null })
-  const openEdit = (location) => setFormState({ open: true, mode: 'edit', location })
+  const openCreate = () => {
+    setMessage('')
+    setFormState({ open: true, mode: 'create', location: null })
+  }
+  const openEdit = (location) => {
+    setMessage('')
+    setFormState({ open: true, mode: 'edit', location })
+  }
   const closeForm = () => setFormState({ open: false, mode: 'create', location: null })
 
   const saveLocation = (values) => {
+    const isEdit = formState.mode === 'edit'
     if (formState.mode === 'edit') {
       setLocationList((current) => current.map((location) => location.id === formState.location.id ? { ...location, ...values } : location))
     } else {
@@ -43,6 +51,7 @@ export function LocationsPage() {
       setLocationList((current) => [...current, { id: nextId, ...values }])
     }
     closeForm()
+    setMessage(isEdit ? 'Location updated.' : 'Location created.')
   }
 
   return <PageContainer>
@@ -67,9 +76,16 @@ export function LocationsPage() {
         options={[{ value: '', label: 'All Locations' }, ...locationTypes.map((type) => ({ value: type, label: type }))]}
       />
     </Card>
+    {message && <p className="mb-5 text-sm font-medium text-green-700" role="status">{message}</p>}
 
     <Card className="table-card">
-      <LocationsTable locations={filteredLocations} onEdit={openEdit} />
+      <LocationsTable
+        locations={filteredLocations}
+        onEdit={openEdit}
+        emptyMessage={locationList.length === 0
+          ? <div><p className="font-semibold text-(--text)">No locations found</p><p className="mt-1 text-sm text-(--text-muted)">Create a location to use it in the packaging lifecycle.</p></div>
+          : <div><p className="font-semibold text-(--text)">No matching locations found</p><p className="mt-1 text-sm text-(--text-muted)">Try changing your search or location type filter.</p></div>}
+      />
     </Card>
     <LocationFormDialog
       key={`${formState.open}-${formState.mode}-${formState.location?.id ?? 'new'}`}

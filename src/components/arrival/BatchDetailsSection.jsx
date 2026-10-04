@@ -23,11 +23,12 @@ export function BatchDetailsSection({ suppliers, locations, values, onChange }) 
         required
         value={values.supplierId}
         onChange={(event) => onChange('supplierId', event.target.value)}
-        options={[
+        options={suppliers.length > 0 ? [
           { value: '', label: 'Select supplier' },
           ...suppliers.map((supplier) => ({ value: supplier.id, label: supplier.name })),
-        ]}
+        ] : [{ value: '', label: 'No active suppliers available' }]}
       />
+      {suppliers.length === 0 && <p className="-mt-2 text-xs text-(--text-muted)">Add or enable a supplier in Setup / Suppliers.</p>}
       <Select
         label="Receiving Warehouse"
         required

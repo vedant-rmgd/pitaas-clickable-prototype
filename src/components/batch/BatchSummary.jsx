@@ -3,6 +3,7 @@ import { Card } from '../ui/Card'
 import { formatDate } from '../../utils/formatDate'
 import { batchStatusTones } from './batchStatus'
 import { getLocationName } from '../../utils/locationHelpers'
+import { getSupplierName } from '../../utils/supplierHelpers'
 
 function SummaryField({ label, children }) {
   return <div>
@@ -19,7 +20,7 @@ export function BatchSummary({ batch }) {
     </div>
     <dl className="grid gap-x-6 gap-y-5 p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-3">
       <SummaryField label="Batch Name">{batch.batchName}</SummaryField>
-      <SummaryField label="Supplier">{batch.supplier}</SummaryField>
+      <SummaryField label="Supplier">{getSupplierName(batch.supplierId)}</SummaryField>
       <SummaryField label="Received">{formatDate(batch.createdDate)}</SummaryField>
       <SummaryField label="Receiving Warehouse">{getLocationName(batch.receivingLocationId, batch.receivingLocation)}</SummaryField>
       <SummaryField label="Status"><Badge tone={batchStatusTones[batch.status] ?? 'neutral'}>{batch.status}</Badge></SummaryField>

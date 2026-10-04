@@ -5,6 +5,7 @@ import { Card } from '../../components/ui/Card'
 import { PageContainer } from '../../components/ui/PageContainer'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { batches } from '../../data/batches'
+import { getSupplierName } from '../../utils/supplierHelpers'
 
 export function BatchesPage() {
   const navigate = useNavigate()
@@ -13,7 +14,7 @@ export function BatchesPage() {
     const normalizedQuery = query.trim().toLowerCase()
     if (!normalizedQuery) return batches
 
-    return batches.filter((batch) => `${batch.batchName} ${batch.supplier}`.toLowerCase().includes(normalizedQuery))
+    return batches.filter((batch) => `${batch.batchName} ${getSupplierName(batch.supplierId)}`.toLowerCase().includes(normalizedQuery))
   }, [query])
 
   return <PageContainer>
@@ -44,7 +45,13 @@ export function BatchesPage() {
           <p className="mt-1 text-xs text-(--text-muted)">{filteredBatches.length} {filteredBatches.length === 1 ? 'batch' : 'batches'}</p>
         </div>
       </div>
-      <BatchesTable batches={filteredBatches} onRowClick={(batch) => navigate(`/universal-sets/batches/${batch.id}`)} />
+      <BatchesTable
+        batches={filteredBatches}
+        onRowClick={(batch) => navigate(`/universal-sets/batches/${batch.id}`)}
+        emptyMessage={batches.length === 0
+          ? { title: 'No batches found', description: 'Create a New Arrival to start tracking Universal Packaging.' }
+          : { title: 'No matching batches found', description: 'Try changing your batch name or supplier search.' }}
+      />
     </Card>
   </PageContainer>
 }

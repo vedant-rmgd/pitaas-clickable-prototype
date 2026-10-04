@@ -5,13 +5,19 @@ function getPendingQrIds(batchId) {
   return qrItems.filter((item) => item.batchId === batchId && item.currentLocationId === 'in-transit').map((item) => item.qrId)
 }
 
+function getQrIdsAtLocation(batchId, locationId) {
+  return qrItems.filter((item) => item.batchId === batchId && item.currentLocationId === locationId).map((item) => item.qrId)
+}
+
+const octoberEsQrIds = getQrIdsAtLocation('october-supplier-batch', 'abc-equipment-supplier-mumbai')
+const octoberPendingQrIds = getPendingQrIds('october-supplier-batch')
+const octoberMovedQrIds = [...octoberEsQrIds, ...octoberPendingQrIds]
+
 const legacyMovements = [
   { id: 'movement-october-001', batchId: 'october-supplier-batch', date: '2026-10-01T10:30:00', scanType: 'IN', fromLocation: 'Supplier', toLocation: 'Pune Warehouse', itemCount: 33, status: 'Completed' },
-  { id: 'movement-october-002', batchId: 'october-supplier-batch', date: '2026-10-02T11:45:00', scanType: 'OUT', fromLocation: 'Pune Warehouse', toLocation: 'ABC Equipment Supplier – Mumbai', itemCount: 12, status: 'Completed' },
-  { id: 'movement-october-003', batchId: 'october-supplier-batch', date: '2026-10-03T09:20:00', scanType: 'IN', fromLocation: 'Supplier', toLocation: 'ABC Equipment Supplier – Mumbai', itemCount: 12, status: 'Completed' },
-  { id: 'movement-october-004', batchId: 'october-supplier-batch', date: '2026-10-03T14:15:00', scanType: 'OUT', fromLocation: 'Pune Warehouse', toLocation: 'Tata Motors Bangalore', itemCount: 6, status: 'Completed' },
-  { id: 'movement-october-005', batchId: 'october-supplier-batch', date: '2026-10-04T10:00:00', scanType: 'IN', fromLocation: 'Pune Warehouse', toLocation: 'Tata Motors Bangalore', itemCount: 6, status: 'Completed' },
-  { id: 'movement-october-006', batchId: 'october-supplier-batch', date: '2026-10-05T12:30:00', scanType: 'OUT', fromLocation: 'Pune Warehouse', fromLocationId: 'pune-warehouse', toLocation: 'ABC Equipment Supplier – Mumbai', toLocationId: 'abc-equipment-supplier-mumbai', itemCount: 5, itemQrIds: getPendingQrIds('october-supplier-batch'), status: 'In Transit' },
+  { id: 'movement-october-002', batchId: 'october-supplier-batch', date: '2026-10-02T11:45:00', scanType: 'OUT', fromLocation: 'Pune Warehouse', fromLocationId: 'pune-warehouse', toLocation: 'ABC Equipment Supplier – Mumbai', toLocationId: 'abc-equipment-supplier-mumbai', itemCount: 15, itemQrIds: octoberMovedQrIds, status: 'Completed' },
+  { id: 'movement-october-003', batchId: 'october-supplier-batch', date: '2026-10-03T09:20:00', scanType: 'IN', fromLocation: 'Pune Warehouse', fromLocationId: 'pune-warehouse', toLocation: 'ABC Equipment Supplier – Mumbai', toLocationId: 'abc-equipment-supplier-mumbai', itemCount: 14, itemQrIds: octoberEsQrIds, status: 'Completed' },
+  { id: 'movement-october-004', batchId: 'october-supplier-batch', date: '2026-10-05T12:30:00', scanType: 'OUT', fromLocation: 'Pune Warehouse', fromLocationId: 'pune-warehouse', toLocation: 'ABC Equipment Supplier – Mumbai', toLocationId: 'abc-equipment-supplier-mumbai', itemCount: 1, itemQrIds: octoberPendingQrIds, status: 'In Transit' },
   { id: 'movement-september-001', batchId: 'september-distribution-batch', date: '2026-09-18T09:15:00', scanType: 'IN', fromLocation: 'Supplier', toLocation: 'Mumbai Warehouse', itemCount: 60, status: 'Completed' },
   { id: 'movement-september-002', batchId: 'september-distribution-batch', date: '2026-09-20T13:00:00', scanType: 'OUT', fromLocation: 'Mumbai Warehouse', toLocation: 'Tata Motors Bangalore', itemCount: 20, status: 'Completed' },
   { id: 'movement-september-003', batchId: 'september-distribution-batch', date: '2026-09-21T10:45:00', scanType: 'OUT', fromLocation: 'Mumbai Warehouse', toLocation: 'Pune Warehouse', itemCount: 12, status: 'Completed' },

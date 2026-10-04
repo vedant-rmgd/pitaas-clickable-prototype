@@ -2,7 +2,7 @@ import { Badge } from '../ui/Badge'
 import { DataTable } from '../ui/DataTable'
 import { LocationTypeBadge } from './LocationTypeBadge'
 
-export function LocationsTable({ locations, onEdit }) {
+export function LocationsTable({ locations, onEdit, emptyMessage }) {
   const columns = [
     {
       key: 'name',
@@ -32,6 +32,6 @@ export function LocationsTable({ locations, onEdit }) {
     columns={columns}
     data={locations}
     rowKey="id"
-    emptyMessage={<div><p className="font-semibold text-(--text)">No locations found</p><p className="mt-1 text-sm text-(--text-muted)">Try another location name, organization, city, or type.</p></div>}
+    emptyMessage={emptyMessage ?? <div><p className="font-semibold text-(--text)">No locations found</p><p className="mt-1 text-sm text-(--text-muted)">Try another location name, organization, city, or type.</p></div>}
   />
 }

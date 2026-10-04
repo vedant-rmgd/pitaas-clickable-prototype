@@ -24,7 +24,7 @@ export function ScannedItemsList({ items, onRemove, mode = 'out' }) {
             <th scope="col" className="px-5 py-3 font-semibold">QR ID</th>
             <th scope="col" className="px-5 py-3 font-semibold">Type</th>
             <th scope="col" className="px-5 py-3 font-semibold">{isInScan ? 'Batch' : 'Current Location'}</th>
-            <th scope="col" className="px-5 py-3 font-semibold">{isInScan ? 'Expected From' : 'Batch'}</th>
+            <th scope="col" className="px-5 py-3 font-semibold">{isInScan ? 'Coming From' : 'Batch'}</th>
             <th scope="col" className="px-5 py-3 text-right font-semibold">Action</th>
           </tr>
         </thead>

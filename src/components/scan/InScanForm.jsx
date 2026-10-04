@@ -92,12 +92,12 @@ export function InScanForm({ onDone }) {
       <div className="border-b border-(--border) px-5 py-4 sm:px-6">
         <div className="flex items-center gap-2">
           <Package size={18} className="text-(--primary)" aria-hidden="true" />
-          <h2 className="text-base font-semibold text-(--text)">Incoming Movement</h2>
+          <h2 className="text-base font-semibold text-(--text)">Arrival Context</h2>
         </div>
         <p className="mt-1 text-sm text-(--text-muted)">Select the pending movement that has arrived at a receiving location.</p>
       </div>
       <div className="p-5 sm:p-6">
-        <FieldSelect label="Incoming Batch / Movement" value={selectedMovementId} onChange={handleMovementChange}>
+        <FieldSelect label="Incoming Batch / Shipment" value={selectedMovementId} onChange={handleMovementChange}>
           <option value="">Select incoming movement</option>
           {pendingMovements.map((movement) => {
             const batch = batches.find((candidate) => candidate.id === movement.batchId)

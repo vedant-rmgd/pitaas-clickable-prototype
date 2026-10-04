@@ -1,6 +1,7 @@
 import { Badge } from '../ui/Badge'
 import { formatDate } from '../../utils/formatDate'
 import { batchStatusTones } from './batchStatus'
+import { getSupplierName } from '../../utils/supplierHelpers'
 
 function handleRowKeyDown(event, onRowClick, batch) {
   if (event.key !== 'Enter' && event.key !== ' ') return
@@ -8,7 +9,7 @@ function handleRowKeyDown(event, onRowClick, batch) {
   onRowClick(batch)
 }
 
-export function BatchesTable({ batches, onRowClick }) {
+export function BatchesTable({ batches, onRowClick, emptyMessage }) {
   return <div className="overflow-x-auto">
     <table className="min-w-190 w-full border-collapse text-left text-sm">
       <thead>
@@ -24,8 +25,8 @@ export function BatchesTable({ batches, onRowClick }) {
       <tbody>
         {batches.length === 0 ? <tr>
           <td colSpan="6" className="px-5 py-12 text-center">
-            <p className="text-sm font-semibold text-(--text)">No batches found</p>
-            <p className="mt-1 text-sm text-(--text-muted)">Try a different batch name or supplier.</p>
+            <p className="text-sm font-semibold text-(--text)">{emptyMessage?.title ?? 'No batches found'}</p>
+            <p className="mt-1 text-sm text-(--text-muted)">{emptyMessage?.description ?? 'Try a different batch name or supplier.'}</p>
           </td>
         </tr> : batches.map((batch) => <tr
           key={batch.id}
@@ -36,7 +37,7 @@ export function BatchesTable({ batches, onRowClick }) {
           onKeyDown={(event) => handleRowKeyDown(event, onRowClick, batch)}
         >
           <td className="px-5 py-4 font-semibold">{batch.batchName}</td>
-          <td className="px-5 py-4 text-(--text-muted)">{batch.supplier}</td>
+          <td className="px-5 py-4 text-(--text-muted)">{getSupplierName(batch.supplierId)}</td>
           <td className="whitespace-nowrap px-5 py-4 text-(--text-muted)">{formatDate(batch.createdDate)}</td>
           <td className="px-5 py-4 text-right font-semibold">{batch.totalItems}</td>
           <td className="px-5 py-4"><Badge tone={batchStatusTones[batch.status] ?? 'neutral'}>{batch.status}</Badge></td>
