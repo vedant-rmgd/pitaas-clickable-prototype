@@ -8,17 +8,17 @@ export const reconciliationItemTypes = [
 
 export const reconciliationRecords = [
   {
-    locationId: 'abc-equipment-supplier-mumbai',
+    locationId: 'es-pune',
     month: '2026-09',
     reported: { caps: 5, sleeves: 25, pallets: 12 },
   },
   {
-    locationId: 'abc-equipment-supplier-mumbai',
+    locationId: 'es-pune',
     month: '2026-10',
     reported: { caps: 5, sleeves: 24, pallets: 12 },
   },
   {
-    locationId: 'xyz-equipment-supplier-pune',
+    locationId: 'es-mumbai',
     month: '2026-09',
     reported: { caps: 0, sleeves: 0, pallets: 0 },
   },

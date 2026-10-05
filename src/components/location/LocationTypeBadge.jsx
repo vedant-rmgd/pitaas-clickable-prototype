@@ -3,7 +3,7 @@ import { Badge } from '../ui/Badge'
 const typeTones = {
   'Customer Warehouse': 'info',
   'Equipment Supplier Warehouse': 'warning',
-  'Company Site': 'neutral',
+  'Company Site(Pickup)': 'neutral',
   'Co-located Warehouse (CLW)': 'success',
 }
 

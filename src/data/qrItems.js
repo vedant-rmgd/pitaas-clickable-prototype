@@ -5,7 +5,7 @@ import { formatQrId } from '../utils/qrId.js'
 function getLocationStatus(locationId) {
   const locationType = getLocationType(locationId)
   if (locationType === 'Equipment Supplier Warehouse') return 'At Equipment Supplier'
-  if (locationType === 'Company Site') return 'At Company'
+  if (locationType === 'Company Site(Pickup)') return 'At Company'
   if (locationType === 'Co-located Warehouse (CLW)') return 'At CLW'
   if (locationType === 'In Transit') return 'In Transit'
   return 'At Warehouse'

@@ -62,7 +62,8 @@ export function LocationsPage() {
       actions={<Button onClick={openCreate}><Plus size={16} aria-hidden="true" />New Location</Button>}
     />
 
-    <Card className="mb-5 grid gap-3 p-4 md:grid-cols-[minmax(0,1.5fr)_minmax(220px,1fr)]">
+    <div className="flex flex-col gap-5">
+    <Card className="grid gap-3 p-4 md:grid-cols-[minmax(0,1.5fr)_minmax(220px,1fr)]">
       <Input
         label="Search"
         placeholder="Search locations by name, organization, or city..."
@@ -76,7 +77,7 @@ export function LocationsPage() {
         options={[{ value: '', label: 'All Locations' }, ...locationTypes.map((type) => ({ value: type, label: type }))]}
       />
     </Card>
-    {message && <p className="mb-5 text-sm font-medium text-green-700" role="status">{message}</p>}
+    {message && <p className="text-sm font-medium text-green-700" role="status">{message}</p>}
 
     <Card className="table-card">
       <LocationsTable
@@ -87,6 +88,7 @@ export function LocationsPage() {
           : <div><p className="font-semibold text-(--text)">No matching locations found</p><p className="mt-1 text-sm text-(--text-muted)">Try changing your search or location type filter.</p></div>}
       />
     </Card>
+    </div>
     <LocationFormDialog
       key={`${formState.open}-${formState.mode}-${formState.location?.id ?? 'new'}`}
       open={formState.open}
