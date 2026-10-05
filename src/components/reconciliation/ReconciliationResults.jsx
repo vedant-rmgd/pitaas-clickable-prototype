@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
-import { ReconciliationDifferences } from './ReconciliationDifferences'
 import { ReconciliationSummary } from './ReconciliationSummary'
 import { StockComparison } from './StockComparison'
 import { getPitaasStock, getReconciliationRecord } from '../../data/reconciliation'
@@ -15,7 +14,6 @@ function formatMonth(value) {
 }
 
 export function ReconciliationResults({ location, month, fileName, onChangeSetup }) {
-  const [showDifferences, setShowDifferences] = useState(false)
   const [downloadMessage, setDownloadMessage] = useState('')
   const report = getReconciliationRecord(location.id, month)
   const pitaasRecords = getPitaasStock(location.id)
@@ -27,7 +25,7 @@ export function ReconciliationResults({ location, month, fileName, onChangeSetup
   </Card>
 
   const rows = buildComparisonRows(pitaasRecords, report.reported)
-  const { pitaasTotal, esTotal, netDifference, matchedCount, differenceCount } = getComparisonTotals(rows)
+  const { pitaasTotal, esTotal, matchedCount, differenceCount } = getComparisonTotals(rows)
   const monthLabel = formatMonth(month)
   const summaryText = buildReconciliationSummary(rows, monthLabel)
 
@@ -48,7 +46,6 @@ export function ReconciliationResults({ location, month, fileName, onChangeSetup
           <p className="mt-1 text-sm text-(--text-muted)">{matchedCount} item types matched · {differenceCount} {differenceCount === 1 ? 'difference' : 'differences'} found</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          {differenceCount > 0 && <Button variant="secondary" onClick={() => setShowDifferences((current) => !current)}>{showDifferences ? 'Hide Differences' : 'View Differences'}</Button>}
           <Button variant="secondary" onClick={handleDownload}>Download Report</Button>
           <Button variant="secondary" onClick={onChangeSetup}>Change Setup</Button>
         </div>
@@ -62,6 +59,5 @@ export function ReconciliationResults({ location, month, fileName, onChangeSetup
     {downloadMessage && <p className="text-right text-xs font-medium text-green-700" role="status">{downloadMessage}</p>}
     <StockComparison rows={rows} pitaasTotal={pitaasTotal} esTotal={esTotal} />
     <ReconciliationSummary rows={rows} monthLabel={monthLabel} summaryText={summaryText} />
-    {showDifferences && <ReconciliationDifferences rows={rows} locationName={location.name} monthLabel={monthLabel} pitaasTotal={pitaasTotal} esTotal={esTotal} netDifference={netDifference} />}
   </div>
 }

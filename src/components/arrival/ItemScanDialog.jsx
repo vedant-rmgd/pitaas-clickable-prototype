@@ -1,20 +1,27 @@
+import { useState } from 'react'
 import { Badge } from '../ui/Badge'
 import { Dialog } from '../ui/Dialog'
 import { QrScanner } from '../scan/QrScanner'
 
 export function ItemScanDialog({ open, onClose, itemType, expectedCount, scannedItems, demoQrIds = [], onScan, onRemove }) {
+  const [cameraOpen, setCameraOpen] = useState(false)
   const scannedCount = scannedItems.length
   const remainingCount = Math.max(expectedCount - scannedCount, 0)
   const isComplete = scannedCount >= expectedCount
   const availableDemoQrIds = demoQrIds.filter((qrId) => !scannedItems.some((item) => item.qrId === qrId))
 
+  const handleClose = () => {
+    setCameraOpen(false)
+    onClose()
+  }
+
   return <>
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       title={`Scan ${itemType}s`}
       description={`Scan or enter the QR ID attached to each ${itemType}.`}
-      className="w-full max-w-xl"
+      className={`w-full max-w-5xl transition-opacity ${cameraOpen ? 'pointer-events-none opacity-0' : ''}`}
       footer={null}
     >
       <div className="space-y-5">
@@ -42,6 +49,8 @@ export function ItemScanDialog({ open, onClose, itemType, expectedCount, scanned
         onScan={onScan}
         demoQrIds={availableDemoQrIds}
         autoFocus={open}
+        stackCameraAction
+        onCameraStateChange={setCameraOpen}
         helperText="Press Enter after each QR ID to add it to this first In Scan."
       />
 

@@ -1,16 +1,22 @@
 import { useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Camera, Plus, ScanLine } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { Dialog } from '../ui/Dialog'
 import { formatQrId } from '../../utils/qrId'
 
-export function QrScanner({ disabled = false, onScan, demoQrIds = [], helperText = 'Scan each physical item using its existing QR ID.', autoFocus = false }) {
+export function QrScanner({ disabled = false, onScan, demoQrIds = [], helperText = 'Scan each physical item using its existing QR ID.', autoFocus = false, stackCameraAction = false, onCameraStateChange }) {
   const [qrId, setQrId] = useState('')
   const [error, setError] = useState('')
   const [cameraOpen, setCameraOpen] = useState(false)
   const [cameraError, setCameraError] = useState('')
   const inputRef = useRef(null)
   const demoScanNumber = useRef(0)
+
+  const setCameraVisibility = (nextOpen) => {
+    setCameraOpen(nextOpen)
+    onCameraStateChange?.(nextOpen)
+  }
 
   const addQrId = (value) => {
     const result = onScan(value)
@@ -38,18 +44,18 @@ export function QrScanner({ disabled = false, onScan, demoQrIds = [], helperText
 
   return <>
     <div className="rounded-lg border border-(--border) bg-(--surface-muted) p-4 sm:p-5">
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-      <Button variant="success" disabled={disabled} className="justify-center sm:shrink-0" onClick={() => {
+    <div className={stackCameraAction ? 'flex flex-col gap-3' : 'flex flex-col gap-3 sm:flex-row sm:items-center'}>
+      <Button variant="success" disabled={disabled} className={stackCameraAction ? 'w-full justify-center sm:w-auto' : 'justify-center sm:shrink-0'} onClick={() => {
         setCameraError('')
-        setCameraOpen(true)
+        setCameraVisibility(true)
       }}>
         <Camera size={17} aria-hidden="true" />
         Scan with Camera
       </Button>
       <div className="flex items-center gap-3 text-xs text-(--text-muted)" aria-hidden="true">
-        <span className="h-px flex-1 bg-(--border) sm:hidden" />
+        <span className={stackCameraAction ? 'h-px flex-1 bg-(--border)' : 'h-px flex-1 bg-(--border) sm:hidden'} />
         <span>or</span>
-        <span className="h-px flex-1 bg-(--border) sm:hidden" />
+        <span className={stackCameraAction ? 'h-px flex-1 bg-(--border)' : 'h-px flex-1 bg-(--border) sm:hidden'} />
       </div>
       <form className="flex min-w-0 flex-1 flex-col gap-1.5 sm:flex-row sm:items-end" onSubmit={handleSubmit}>
         <label className="flex min-w-0 flex-1 flex-col gap-1.5">
@@ -79,9 +85,9 @@ export function QrScanner({ disabled = false, onScan, demoQrIds = [], helperText
     <p className="mt-3 text-xs leading-5 text-(--text-muted)">{helperText}</p>
     </div>
 
-    <Dialog
+    {cameraOpen && typeof document !== 'undefined' && createPortal(<Dialog
       open={cameraOpen}
-      onClose={() => setCameraOpen(false)}
+      onClose={() => setCameraVisibility(false)}
       title="Scan with Camera"
       description="Use the simulated camera preview to add an item to this scan."
       footer={null}
@@ -102,6 +108,6 @@ export function QrScanner({ disabled = false, onScan, demoQrIds = [], helperText
         </Button>
         <p className="text-center text-xs leading-5 text-(--text-muted)">This prototype simulates a camera result and does not access your device camera.</p>
       </div>
-    </Dialog>
+    </Dialog>, document.body)}
   </>
 }
